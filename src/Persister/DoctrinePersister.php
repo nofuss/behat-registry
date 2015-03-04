@@ -54,6 +54,5 @@ class DoctrinePersister implements Persister
     public function commitTransaction()
     {
         $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 }

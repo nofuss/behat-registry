@@ -6,7 +6,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use eBayEnterprise\Behat\RegistryExtension\Registry;
 
-class RawRegistryContainer implements Context, RegistryAwareContext
+class RawRegistryContext implements Context, RegistryAwareContext
 {
     /**
      * @var Registry

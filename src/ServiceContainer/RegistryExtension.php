@@ -9,12 +9,14 @@
 namespace eBayEnterprise\Behat\RegistryExtension\ServiceContainer;
 
 use Behat\Behat\Context\ServiceContainer\ContextExtension;
+use Behat\Testwork\ServiceContainer\Extension;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class RegistryExtension
+class RegistryExtension implements Extension
 {
     /**
      * Registry ID in service container.
@@ -28,6 +30,7 @@ class RegistryExtension
     {
         $this->loadRegistry($container, $config);
         $this->loadContextInitializer($container);
+        $this->loadSymfonyDoctrinePersister($container, $config);
     }
 
     /**
@@ -40,6 +43,28 @@ class RegistryExtension
             ->children()
                 ->scalarNode('persister')->defaultNull()->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfigKey()
+    {
+        return 'registry';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function initialize(ExtensionManager $extensionManager)
+    {
     }
 
     /**
@@ -87,5 +112,18 @@ class RegistryExtension
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
 
         $container->setDefinition('registry.context_initializer', $definition);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    private function loadSymfonyDoctrinePersister(ContainerBuilder $container)
+    {
+        $definition = new Definition(
+            'eBayEnterprise\Behat\RegistryExtension\Persister\SymfonyDoctrinePersister',
+            array(new Reference('symfony2_extension.kernel'))
+        );
+
+        $container->setDefinition('registry.symfony_doctrine_persister', $definition);
     }
 }
