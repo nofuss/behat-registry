@@ -29,7 +29,6 @@ class DoctrinePersister implements Persister
      */
     public function beginTransaction()
     {
-        $this->entityManager->beginTransaction();
     }
 
     /**
