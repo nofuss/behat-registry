@@ -156,6 +156,22 @@ class Registry extends \ArrayObject
     }
 
     /**
+     * Reload all entities from Registry.
+     *
+     * @return $this
+     */
+    public function reload()
+    {
+        $this->checkPersister();
+
+        foreach ($this as $key => $entity) {
+            $this[$key] = $this->persister->reload($entity);
+        }
+
+        return $this;
+    }
+
+    /**
      * Throws an exception if persister is not set.
      */
     private function checkPersister()

@@ -78,6 +78,24 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $registry->getArrayCopy());
     }
 
+    public function testReload()
+    {
+        $oldEntity = new \stdClass();
+        $newEntity = new \stdClass();
+
+        $persister = $this->getMock('\eBayEnterprise\Behat\RegistryExtension\Persister');
+        $persister->expects($this->once())
+            ->method('reload')
+            ->with($oldEntity)
+            ->willReturn($newEntity);
+
+        $registry = new Registry($persister);
+        $registry->append($oldEntity);
+        $registry->reload();
+
+        $this->assertSame($newEntity, $registry->findOne(get_class($oldEntity)));
+    }
+
     public function testMergeWithArray()
     {
         $firstEntity = new \stdClass();

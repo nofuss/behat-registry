@@ -42,6 +42,17 @@ class DoctrinePersister implements Persister
     /**
      * {@inheritdoc}
      */
+    public function reload($entity)
+    {
+        $repository = $this->entityManager->getRepository(get_class($entity));
+        $repository->clear($entity);
+
+        return $repository->find($entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove($entity)
     {
         $this->entityManager->remove($entity);

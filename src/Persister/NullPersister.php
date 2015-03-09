@@ -30,6 +30,13 @@ class NullPersister implements Persister
     /**
      * {@inheritdoc}
      */
+    public function reload($entity)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function commitTransaction()
     {
     }

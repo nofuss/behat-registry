@@ -30,6 +30,16 @@ interface Persister
     public function remove($entity);
 
     /**
+     * Reload a single entity.
+     * Return a new instance of the entity.
+     *
+     * @param object $entity
+     *
+     * @return mixed
+     */
+    public function reload($entity);
+
+    /**
      * Commit transaction.
      */
     public function commitTransaction();
