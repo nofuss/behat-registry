@@ -32,6 +32,7 @@ class NullPersister implements Persister
      */
     public function reload($entity)
     {
+        return $entity;
     }
 
     /**
