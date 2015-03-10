@@ -44,10 +44,9 @@ class DoctrinePersister implements Persister
      */
     public function reload($entity)
     {
-        $repository = $this->entityManager->getRepository(get_class($entity));
-        $repository->clear($entity);
+        $this->entityManager->detach($entity);
 
-        return $repository->find($entity);
+        return $this->entityManager->getRepository(get_class($entity))->find($entity);
     }
 
     /**
