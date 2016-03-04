@@ -24,7 +24,7 @@ class RegistryAwareInitializer implements ContextInitializer
      * @param Registry $registry
      */
     public function __construct(Registry $registry)
-    {\
+    {
         $this->registry = $registry;
     }
 
