@@ -130,7 +130,9 @@ class Registry extends \ArrayObject
 
         $this->persister->beginTransaction();
         foreach ($this as $entity) {
-            $this->persister->remove($entity);
+            if (!empty($entity)) {
+                $this->persister->remove($entity);
+            }
         }
 
         $this->persister->commitTransaction();
@@ -147,7 +149,9 @@ class Registry extends \ArrayObject
 
         $this->persister->beginTransaction();
         foreach ($this as $entity) {
-            $this->persister->persist($entity);
+            if (!empty($entity)){
+                $this->persister->persist($entity);
+            }
         }
 
         $this->persister->commitTransaction();
@@ -165,7 +169,9 @@ class Registry extends \ArrayObject
         $this->checkPersister();
 
         foreach ($this as $key => $entity) {
-            $this[$key] = $this->persister->reload($entity);
+            if (!empty($entity)) {
+                $this[$key] = $this->persister->reload($entity);
+            }
         }
 
         return $this;
