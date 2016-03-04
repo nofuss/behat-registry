@@ -34,6 +34,26 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $registry->persist();
     }
 
+
+    public function testPersistNull()
+    {
+        $firstEntity = null;
+
+        $persister = $this->getMock('\eBayEnterprise\Behat\RegistryExtension\Persister');
+        $persister->expects($this->at(0))
+            ->method('beginTransaction');
+
+        $persister->expects($this->never())
+            ->method('persist');
+
+        $persister->expects($this->at(1))
+            ->method('commitTransaction');
+
+        $registry = new Registry($persister);
+        $registry->append($firstEntity);
+        $registry->persist();
+    }
+
     public function testPersistWithoutPersister()
     {
         $this->setExpectedException('InvalidArgumentException');
@@ -78,6 +98,25 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $registry->getArrayCopy());
     }
 
+    public function testCleanNull()
+    {
+        $firstEntity = null;
+
+        $persister = $this->getMock('\eBayEnterprise\Behat\RegistryExtension\Persister');
+        $persister->expects($this->at(0))
+            ->method('beginTransaction');
+
+        $persister->expects($this->never())
+            ->method('remove');
+
+        $persister->expects($this->at(1))
+            ->method('commitTransaction');
+
+        $registry = new Registry($persister);
+        $registry->append($firstEntity);
+        $registry->reset();
+    }
+
     public function testReload()
     {
         $oldEntity = new \stdClass();
@@ -94,6 +133,19 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $registry->reload();
 
         $this->assertSame($newEntity, $registry->findOne(get_class($oldEntity)));
+    }
+
+    public function testReloadNull()
+    {
+        $oldEntity = null;
+
+        $persister = $this->getMock('\eBayEnterprise\Behat\RegistryExtension\Persister');
+        $persister->expects($this->never())
+            ->method('reload');
+
+        $registry = new Registry($persister);
+        $registry->append($oldEntity);
+        $registry->reload();
     }
 
     public function testMergeWithArray()
