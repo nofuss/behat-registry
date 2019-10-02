@@ -1,5 +1,5 @@
 {
-  "name": "ebayenterprise-eu/behat-registry",
+  "name": "magento-mcom/behat-registry",
   "type": "behat-extension",
   "description": "Registry extension for Behat",
   "keywords": ["web", "test", "behat", "registry"],
